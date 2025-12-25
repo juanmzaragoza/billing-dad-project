@@ -1,0 +1,116 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Next.js: dev",
+			"type": "shell",
+			"command": "npm run dev",
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "typescript",
+				"pattern": {
+					"regexp": "^([^\\s].*):(\\d+):(\\d+):\\s+(warning|error)\\s+(TS\\d+)\\s*:\\s*(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"code": 5,
+					"message": 6
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": {
+						"regexp": ".*"
+					},
+					"endsPattern": {
+						"regexp": ".*- Local:.*"
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Next.js: build",
+			"type": "shell",
+			"command": "npm run build",
+			"problemMatcher": {
+				"owner": "typescript",
+				"pattern": {
+					"regexp": "^([^\\s].*):(\\d+):(\\d+):\\s+(warning|error)\\s+(TS\\d+)\\s*:\\s*(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"code": 5,
+					"message": 6
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"group": "build"
+		},
+		{
+			"label": "Next.js: start",
+			"type": "shell",
+			"command": "npm run start",
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "typescript",
+				"pattern": {
+					"regexp": "^([^\\s].*):(\\d+):(\\d+):\\s+(warning|error)\\s+(TS\\d+)\\s*:\\s*(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"code": 5,
+					"message": 6
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": {
+						"regexp": ".*"
+					},
+					"endsPattern": {
+						"regexp": ".*- Local:.*"
+					}
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "Next.js: lint",
+			"type": "shell",
+			"command": "npm run lint",
+			"problemMatcher": {
+				"owner": "eslint",
+				"fileLocation": ["relative", "${workspaceFolder}"],
+				"pattern": {
+					"regexp": "^([^\\s].*):(\\d+):(\\d+):\\s+(warning|error)\\s+(.*)\\s*\\((.*)\\)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5,
+					"code": 6
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		}
+	]
+}
+
