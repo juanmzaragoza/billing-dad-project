@@ -1,15 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type {
+	SettingsSidebarNavProps,
+	SettingsLayoutProps,
+} from "@/lib/types/component.types";
 
 import { cn } from "@/lib/utils";
-
-interface SettingsSidebarNavProps extends React.HTMLAttributes<HTMLElement> {
-	items: {
-		href: string;
-		title: string;
-	}[];
-}
 
 function SettingsSidebarNav({
 	className,
@@ -74,10 +71,6 @@ const sidebarNavItems = [
 		href: "/dashboard/settings/api-keys",
 	},
 ];
-
-interface SettingsLayoutProps {
-	children: React.ReactNode;
-}
 
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
 	return (

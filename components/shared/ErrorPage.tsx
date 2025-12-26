@@ -8,14 +8,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { AlertTriangle, Home, RefreshCw } from "lucide-react";
-import type { ReactNode } from "react";
-
-interface ErrorPageProps {
-	title?: string;
-	description?: string;
-	errorCode?: string;
-	actions?: ReactNode;
-}
+import type { ErrorPageProps } from "@/lib/types/component.types";
 
 export default function ErrorPage({
 	title = "Dashboard Error",

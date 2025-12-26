@@ -4,123 +4,46 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
-	LayoutDashboard,
 	Settings,
-	Users,
-	BarChart3,
-	FolderKanban,
 	ChevronLeft,
 	ChevronRight,
-	FileText,
-	Calendar,
-	Database,
-	MessageSquare,
-	Shield,
-	HelpCircle,
-	LogIn,
-	AlertCircle,
+	ShoppingCart,
+	BarChart3,
+	Receipt,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const sidebarGroups = [
 	{
-		title: "General",
+		title: "Principal",
 		items: [
 			{
-				title: "Dashboard",
-				href: "/dashboard",
-				icon: LayoutDashboard,
+				title: "Facturas",
+				href: "/dashboard/facturas",
+				icon: Receipt,
 				badge: null,
 			},
 			{
-				title: "Analytics",
-				href: "/dashboard/analytics",
-				icon: BarChart3,
-				badge: "New",
+				title: "Órdenes de compra",
+				href: "/dashboard/ordenes-compra",
+				icon: ShoppingCart,
+				badge: null,
 			},
 			{
-				title: "Settings",
+				title: "Reportes",
+				href: "/dashboard/reportes",
+				icon: BarChart3,
+				badge: null,
+			},
+			{
+				title: "Configuración",
 				href: "/dashboard/settings",
 				icon: Settings,
 				badge: null,
 			},
 		],
 	},
-	{
-		title: "Pages",
-		items: [
-			{
-				title: "Users",
-				href: "/dashboard/users",
-				icon: Users,
-				badge: "12",
-			},
-			{
-				title: "Projects",
-				href: "/dashboard/projects",
-				icon: FolderKanban,
-				badge: null,
-			},
-			{
-				title: "Documents",
-				href: "/dashboard/documents",
-				icon: FileText,
-				badge: null,
-			},
-			{
-				title: "Calendar",
-				href: "/dashboard/calendar",
-				icon: Calendar,
-				badge: "3",
-			},
-			{
-				title: "Auth Pages",
-				href: "/dashboard/auth",
-				icon: LogIn,
-				badge: null,
-			},
-			{
-				title: "Error Pages",
-				href: "/dashboard/errors",
-				icon: AlertCircle,
-				badge: null,
-			},
-		],
-	},
-	{
-		title: "Others",
-		items: [
-			{
-				title: "Messages",
-				href: "/dashboard/messages",
-				icon: MessageSquare,
-				badge: "5",
-			},
-			{
-				title: "Database",
-				href: "/dashboard/database",
-				icon: Database,
-				badge: null,
-			},
-			{
-				title: "Security",
-				href: "/dashboard/security",
-				icon: Shield,
-				badge: "!",
-			},
-			{
-				title: "Help",
-				href: "/dashboard/help",
-				icon: HelpCircle,
-				badge: null,
-			},
-		],
-	},
 ];
-
-interface SidebarProps {
-	onMobileClose?: () => void;
-}
 
 export function Sidebar({ onMobileClose }: SidebarProps) {
 	const pathname = usePathname();
@@ -142,18 +65,18 @@ export function Sidebar({ onMobileClose }: SidebarProps) {
 			{/* Logo */}
 			<div className="flex h-16 items-center border-b px-6 justify-between">
 				{!isCollapsed && (
-					<Link href="/dashboard" className="flex items-center gap-3 group">
+					<Link href="/dashboard/facturas" className="flex items-center gap-3 group">
 						<div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-							<LayoutDashboard className="w-4 h-4 text-primary-foreground" />
+							<Receipt className="w-4 h-4 text-primary-foreground" />
 						</div>
 						<span className="text-xl font-bold group-hover:text-primary transition-colors">
-							Dashboard
+							Biling Dad
 						</span>
 					</Link>
 				)}
 				{isCollapsed && (
 					<div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center mx-auto">
-						<LayoutDashboard className="w-4 h-4 text-primary-foreground" />
+						<Receipt className="w-4 h-4 text-primary-foreground" />
 					</div>
 				)}
 				<Button

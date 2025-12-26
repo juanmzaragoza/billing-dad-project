@@ -1,6 +1,7 @@
 "use client";
 import { Sidebar } from "@/components/shared/sidebar";
 import { Topbar } from "@/components/shared/topbar";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function DashboardLayout({
 	children,
@@ -20,6 +21,7 @@ export default function DashboardLayout({
 					<div className="min-h-[calc(100vh-8rem)]">{children}</div>
 				</main>
 			</div>
+			<Toaster />
 		</div>
 	);
 }
