@@ -10,34 +10,42 @@ import {
 	ShoppingCart,
 	BarChart3,
 	Receipt,
+	LayoutDashboard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { SidebarProps } from "@/lib/types/component.types";
 
 const sidebarGroups = [
 	{
 		title: "Principal",
 		items: [
 			{
+				title: "Dashboard",
+				href: "/dashboard",
+				icon: LayoutDashboard,
+				badge: null,
+			},
+			{
 				title: "Facturas",
-				href: "/dashboard/facturas",
+				href: "/facturas",
 				icon: Receipt,
 				badge: null,
 			},
 			{
 				title: "Órdenes de compra",
-				href: "/dashboard/ordenes-compra",
+				href: "/ordenes-compra",
 				icon: ShoppingCart,
 				badge: null,
 			},
 			{
 				title: "Reportes",
-				href: "/dashboard/reportes",
+				href: "/reportes",
 				icon: BarChart3,
 				badge: null,
 			},
 			{
 				title: "Configuración",
-				href: "/dashboard/settings",
+				href: "/settings",
 				icon: Settings,
 				badge: null,
 			},
@@ -65,7 +73,7 @@ export function Sidebar({ onMobileClose }: SidebarProps) {
 			{/* Logo */}
 			<div className="flex h-16 items-center border-b px-6 justify-between">
 				{!isCollapsed && (
-					<Link href="/dashboard/facturas" className="flex items-center gap-3 group">
+					<Link href="/dashboard" className="flex items-center gap-3 group">
 						<div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
 							<Receipt className="w-4 h-4 text-primary-foreground" />
 						</div>

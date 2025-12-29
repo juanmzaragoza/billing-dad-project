@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import invoiceService from "@/lib/services/invoice.service";
-import type { InvoiceFormValues } from "@/app/(dashboard)/dashboard/facturas/invoice-form";
+import type { InvoiceFormValues } from "@/app/(protected)/facturas/invoice-form";
 
 export async function POST(request: NextRequest) {
 	try {

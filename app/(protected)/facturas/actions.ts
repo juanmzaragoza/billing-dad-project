@@ -15,7 +15,7 @@ export async function createInvoice(
 ): Promise<InvoiceDocument> {
 	try {
 		const invoice = await invoiceService.createInvoice(data);
-		revalidatePath("/dashboard/facturas");
+		revalidatePath("/facturas");
 		return invoice;
 	} catch (error) {
 		console.error("Error creating invoice:", error);
@@ -83,7 +83,7 @@ export async function updateInvoice(
 		if (!invoice) {
 			throw new Error("Factura no encontrada");
 		}
-		revalidatePath("/dashboard/facturas");
+		revalidatePath("/facturas");
 		return invoice;
 	} catch (error) {
 		console.error("Error updating invoice:", error);
@@ -99,7 +99,7 @@ export async function deleteInvoice(id: string): Promise<void> {
 		if (!deleted) {
 			throw new Error("Factura no encontrada");
 		}
-		revalidatePath("/dashboard/facturas");
+		revalidatePath("/facturas");
 	} catch (error) {
 		console.error("Error deleting invoice:", error);
 		throw new Error(

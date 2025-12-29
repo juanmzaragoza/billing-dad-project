@@ -1,6 +1,6 @@
 import connectToDatabase from "@/lib/db/firestore";
 import { Collection, Db, ObjectId } from "mongodb";
-import type { InvoiceFormValues } from "@/app/(dashboard)/dashboard/facturas/invoice-form";
+import type { InvoiceFormValues } from "@/app/(protected)/facturas/invoice-form";
 import type { InvoiceItem, InvoiceDocument } from "@/lib/types/invoice.types";
 import type { ClientSnapshot } from "@/lib/types/client.types";
 import clientService from "./client.service";

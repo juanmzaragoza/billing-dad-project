@@ -48,27 +48,27 @@ import { Separator } from "@/components/ui/separator";
 const sidebarNavItems = [
 	{
 		title: "Profile",
-		href: "/dashboard/settings",
+		href: "/settings",
 	},
 	{
 		title: "Account",
-		href: "/dashboard/settings/account",
+		href: "/settings/account",
 	},
 	{
 		title: "Appearance",
-		href: "/dashboard/settings/appearance",
+		href: "/settings/appearance",
 	},
 	{
 		title: "Notifications",
-		href: "/dashboard/settings/notifications",
+		href: "/settings/notifications",
 	},
 	{
 		title: "Display",
-		href: "/dashboard/settings/display",
+		href: "/settings/display",
 	},
 	{
 		title: "API Keys",
-		href: "/dashboard/settings/api-keys",
+		href: "/settings/api-keys",
 	},
 ];
 

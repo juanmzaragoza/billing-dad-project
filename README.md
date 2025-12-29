@@ -48,7 +48,7 @@ A modern, responsive dashboard application built with Next.js 14, TypeScript, an
 ```
 ├── app/
 │   ├── (auth)/        # Authentication related pages
-│   ├── (dashboard)/   # Dashboard pages and layouts
+│   ├── (protected)/   # Protected pages and layouts
 │   └── layout.tsx     # Root layout
 ├── components/
 │   ├── ui/           # shadcn/ui components
