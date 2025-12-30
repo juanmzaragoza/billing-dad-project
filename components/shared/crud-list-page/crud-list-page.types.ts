@@ -80,12 +80,25 @@ export interface CrudListPageProps<T, TFormValues> {
 	emptyStateHelperText?: string;
 	/**
 	 * Optional: Additional actions column render function
-	 * Receives the item and a delete handler function
+	 * Receives the item, a delete handler function, and a view handler function
 	 */
-	renderActions?: (item: T, onDelete: () => void) => ReactNode;
+	renderActions?: (item: T, onDelete: () => void, onView?: () => void) => ReactNode;
 	/**
 	 * Optional: Delete confirmation message
 	 */
 	deleteConfirmationMessage?: (item: T) => string;
+	/**
+	 * Optional: View component to render in the view dialog
+	 * Receives the item to display
+	 */
+	viewComponent?: (props: { item: T }) => ReactNode;
+	/**
+	 * Optional: Function to get the view dialog title
+	 */
+	getViewTitle?: (item: T) => string;
+	/**
+	 * Optional: Function to get the view dialog description
+	 */
+	getViewDescription?: (item: T) => string;
 }
 

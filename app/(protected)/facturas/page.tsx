@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Receipt } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { CrudListPage, CrudListPageActions } from "@/components/shared/crud-list-page";
 import type { CrudListColumn } from "@/components/shared/crud-list-page";
-import { ViewDialog } from "@/components/shared/view-dialog";
 import { InvoiceView } from "@/components/invoices/invoice-view";
 import { InvoiceForm } from "./invoice-form";
 import type { InvoiceDocument } from "@/lib/types/invoice.types";
@@ -18,8 +16,6 @@ import {
 } from "@/lib/helpers/invoice.helper";
 
 export default function FacturasPage() {
-	const [selectedInvoice, setSelectedInvoice] = useState<InvoiceDocument | null>(null);
-	const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
 	// Define columns for the table
 	const columns: CrudListColumn<InvoiceDocument>[] = [
 		{
@@ -73,7 +69,6 @@ export default function FacturasPage() {
 	];
 
 	return (
-		<>
 		<CrudListPage<InvoiceDocument, InvoiceFormValues>
 			title="Facturas"
 			description="Gestiona tus facturas y documentos fiscales"
@@ -96,30 +91,15 @@ export default function FacturasPage() {
 			formComponent={({ onSubmit, onCancel }) => (
 				<InvoiceForm onSubmit={onSubmit} onCancel={onCancel} />
 			)}
-			renderActions={(invoice, onDelete) => (
-				<CrudListPageActions
-					onView={() => {
-						setSelectedInvoice(invoice);
-						setIsViewDialogOpen(true);
-					}}
-					onDelete={onDelete}
-				/>
+			viewComponent={({ item }) => <InvoiceView invoice={item} />}
+			getViewTitle={(invoice) => `Factura ${getInvoiceNumber(invoice)}`}
+			getViewDescription={(invoice) =>
+				`Detalles de la factura para ${invoice.clientName}`
+			}
+			renderActions={(invoice, onDelete, onView) => (
+				<CrudListPageActions onView={onView} onDelete={onDelete} />
 			)}
 		/>
-		{selectedInvoice && (
-			<ViewDialog
-				title={`Factura ${getInvoiceNumber(selectedInvoice)}`}
-				description={`Detalles de la factura para ${selectedInvoice.clientName}`}
-				isOpen={isViewDialogOpen}
-				onClose={() => {
-					setIsViewDialogOpen(false);
-					setSelectedInvoice(null);
-				}}
-			>
-				<InvoiceView invoice={selectedInvoice} />
-			</ViewDialog>
-		)}
-		</>
 	);
 }
 

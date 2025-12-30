@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
+import { ViewDialog } from "@/components/shared/view-dialog";
 import type { CrudListPageProps } from "./crud-list-page.types";
 
 /**
@@ -45,8 +46,13 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 	emptyStateHelperText,
 	renderActions,
 	deleteConfirmationMessage,
+	viewComponent,
+	getViewTitle,
+	getViewDescription,
 }: CrudListPageProps<T, TFormValues>) {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+	const [selectedItem, setSelectedItem] = useState<T | null>(null);
 	const [items, setItems] = useState<T[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -215,7 +221,16 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 										))}
 										{renderActions && (
 											<TableCell className="text-right">
-												{renderActions(item, () => handleDelete(item))}
+												{renderActions(
+													item,
+													() => handleDelete(item),
+													viewComponent
+														? () => {
+																setSelectedItem(item);
+																setIsViewDialogOpen(true);
+															}
+														: undefined,
+												)}
 											</TableCell>
 										)}
 									</TableRow>
@@ -225,6 +240,29 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 					)}
 				</CardContent>
 			</Card>
+
+			{/* View Dialog */}
+			{viewComponent && selectedItem && (
+				<ViewDialog
+					title={
+						getViewTitle
+							? getViewTitle(selectedItem)
+							: `Ver ${title.slice(0, -1)}`
+					}
+					description={
+						getViewDescription
+							? getViewDescription(selectedItem)
+							: `Detalles del ${title.slice(0, -1).toLowerCase()}`
+					}
+					isOpen={isViewDialogOpen}
+					onClose={() => {
+						setIsViewDialogOpen(false);
+						setSelectedItem(null);
+					}}
+				>
+					{viewComponent({ item: selectedItem })}
+				</ViewDialog>
+			)}
 		</div>
 	);
 }
