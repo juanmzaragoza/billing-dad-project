@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { Receipt } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { CrudListPage, CrudListPageActions } from "@/components/shared/crud-list-page";
 import type { CrudListColumn } from "@/components/shared/crud-list-page";
+import { ViewDialog } from "@/components/shared/view-dialog";
+import { InvoiceView } from "@/components/invoices/invoice-view";
 import { InvoiceForm } from "./invoice-form";
 import type { InvoiceDocument } from "@/lib/types/invoice.types";
 import type { InvoiceFormValues } from "./invoice-form";
@@ -15,6 +18,8 @@ import {
 } from "@/lib/helpers/invoice.helper";
 
 export default function FacturasPage() {
+	const [selectedInvoice, setSelectedInvoice] = useState<InvoiceDocument | null>(null);
+	const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
 	// Define columns for the table
 	const columns: CrudListColumn<InvoiceDocument>[] = [
 		{
@@ -68,6 +73,7 @@ export default function FacturasPage() {
 	];
 
 	return (
+		<>
 		<CrudListPage<InvoiceDocument, InvoiceFormValues>
 			title="Facturas"
 			description="Gestiona tus facturas y documentos fiscales"
@@ -93,13 +99,27 @@ export default function FacturasPage() {
 			renderActions={(invoice, onDelete) => (
 				<CrudListPageActions
 					onView={() => {
-						// TODO: Implement view details
-						console.log("View invoice:", invoice);
+						setSelectedInvoice(invoice);
+						setIsViewDialogOpen(true);
 					}}
 					onDelete={onDelete}
 				/>
 			)}
 		/>
+		{selectedInvoice && (
+			<ViewDialog
+				title={`Factura ${getInvoiceNumber(selectedInvoice)}`}
+				description={`Detalles de la factura para ${selectedInvoice.clientName}`}
+				isOpen={isViewDialogOpen}
+				onClose={() => {
+					setIsViewDialogOpen(false);
+					setSelectedInvoice(null);
+				}}
+			>
+				<InvoiceView invoice={selectedInvoice} />
+			</ViewDialog>
+		)}
+		</>
 	);
 }
 

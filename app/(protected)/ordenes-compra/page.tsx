@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { CrudListPage, CrudListPageActions } from "@/components/shared/crud-list-page";
 import type { CrudListColumn } from "@/components/shared/crud-list-page";
+import { ViewDialog } from "@/components/shared/view-dialog";
+import { PurchaseOrderView } from "@/components/purchase-orders/purchase-order-view";
 import { PurchaseOrderForm } from "./purchase-order-form";
 import type { PurchaseOrderDocument } from "@/lib/types/purchase-order.types";
 import type { PurchaseOrderFormValues } from "@/lib/schemas/purchase-order.schemas";
@@ -11,6 +14,8 @@ import * as purchaseOrderActions from "./actions";
 import { formatDate } from "@/lib/helpers/date.helper";
 
 export default function OrdenesCompraPage() {
+	const [selectedOrder, setSelectedOrder] = useState<PurchaseOrderDocument | null>(null);
+	const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
 	// Define columns for the table
 	const columns: CrudListColumn<PurchaseOrderDocument>[] = [
 		{
@@ -72,6 +77,7 @@ export default function OrdenesCompraPage() {
 	];
 
 	return (
+		<>
 		<CrudListPage<PurchaseOrderDocument, PurchaseOrderFormValues>
 			title="Órdenes de Compra"
 			description="Administra tus órdenes de compra y pedidos"
@@ -97,12 +103,26 @@ export default function OrdenesCompraPage() {
 			renderActions={(order, onDelete) => (
 				<CrudListPageActions
 					onView={() => {
-						// TODO: Implement view details
-						console.log("View order:", order);
+						setSelectedOrder(order);
+						setIsViewDialogOpen(true);
 					}}
 					onDelete={onDelete}
 				/>
 			)}
 		/>
+		{selectedOrder && (
+			<ViewDialog
+				title={`Orden de Compra ${selectedOrder.orderNumber}`}
+				description={`Detalles de la orden para ${selectedOrder.supplierName}`}
+				isOpen={isViewDialogOpen}
+				onClose={() => {
+					setIsViewDialogOpen(false);
+					setSelectedOrder(null);
+				}}
+			>
+				<PurchaseOrderView order={selectedOrder} />
+			</ViewDialog>
+		)}
+		</>
 	);
 }
