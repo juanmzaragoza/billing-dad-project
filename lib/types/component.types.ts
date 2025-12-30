@@ -2,6 +2,7 @@ import type * as React from "react";
 import type { ReactNode } from "react";
 import type { ClientDocument } from "./client.types";
 import type { InvoiceFormValues } from "@/app/(protected)/facturas/invoice-form";
+import type { PurchaseOrderFormValues } from "@/lib/schemas/purchase-order.schemas";
 
 /**
  * Client Selector component props
@@ -30,9 +31,9 @@ export interface InvoiceFormProps {
  * Purchase Order Form component props
  */
 export interface PurchaseOrderFormProps {
-	onSubmit: (data: any) => void; // Will be typed properly when PurchaseOrderFormValues is exported
+	onSubmit: (data: PurchaseOrderFormValues) => void;
 	onCancel: () => void;
-	defaultValues?: Partial<any>;
+	defaultValues?: Partial<PurchaseOrderFormValues>;
 }
 
 /**

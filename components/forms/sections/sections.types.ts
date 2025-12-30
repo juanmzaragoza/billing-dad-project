@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { UseFieldArrayReturn, Control, FieldValues } from "react-hook-form";
-import type { Item } from "@/lib/schemas/item.schemas";
 
 /**
  * Props for FormSection component

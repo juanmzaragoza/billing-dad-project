@@ -31,14 +31,13 @@ export function ItemsSection<TFieldValues extends FieldValues = FieldValues>({
 
 			<div className="space-y-4">
 				{fields.map((field, index) => (
-					<ItemFields<TFieldValues>
-						key={field.id}
-						field={field}
-						index={index}
-						control={control}
-						onRemove={() => onRemove(index)}
-						canRemove={fields.length > 1}
-					/>
+				<ItemFields<TFieldValues>
+					key={field.id}
+					index={index}
+					control={control}
+					onRemove={() => onRemove(index)}
+					canRemove={fields.length > 1}
+				/>
 				))}
 			</div>
 		</FormSection>

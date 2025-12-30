@@ -6,7 +6,7 @@ import { purchaseOrderSchema } from "@/lib/schemas/purchase-order.schemas";
  * GET /api/purchase-orders
  * Get all purchase orders
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
 	try {
 		const purchaseOrders =
 			await purchaseOrderService.getAllPurchaseOrders();

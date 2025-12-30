@@ -35,8 +35,8 @@ export const purchaseOrderSchema = z.object({
 	// Optional fields
 	deliveryDate: z.string().optional(),
 	notes: z.string().optional(),
-	// Status
-	status: purchaseOrderStatusEnum.default("Pendiente"),
+	// Status - required with default value
+	status: purchaseOrderStatusEnum,
 });
 
 export type PurchaseOrderFormValues = z.infer<typeof purchaseOrderSchema>;

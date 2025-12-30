@@ -46,7 +46,7 @@ export function PurchaseOrderForm({
 }: PurchaseOrderFormProps) {
 	const form = useForm<PurchaseOrderFormValues>({
 		resolver: zodResolver(purchaseOrderSchema),
-		defaultValues: defaultValues || {
+		defaultValues: {
 			orderNumber: "",
 			date: new Date().toISOString().split("T")[0],
 			supplierId: undefined,
@@ -66,6 +66,7 @@ export function PurchaseOrderForm({
 			deliveryDate: undefined,
 			notes: "",
 			status: "Pendiente",
+			...defaultValues,
 		},
 		mode: "onChange",
 	});
@@ -119,7 +120,7 @@ export function PurchaseOrderForm({
 			form.setValue("supplierId", newSupplier._id as string);
 			form.setValue("supplierName", formValues.supplierName || newSupplier.name);
 			form.setValue("supplierTaxId", formValues.supplierTaxId || newSupplier.taxId || "");
-			form.setValue("supplierTaxCondition", formValues.supplierTaxCondition || newSupplier.taxCondition || undefined);
+			form.setValue("supplierTaxCondition", (formValues.supplierTaxCondition || newSupplier.taxCondition) as PurchaseOrderFormValues["supplierTaxCondition"]);
 			form.setValue("supplierAddress", formValues.supplierAddress || newSupplier.address || "");
 		},
 		validationFields: ["supplierName", "supplierTaxId", "supplierTaxCondition", "supplierAddress"],

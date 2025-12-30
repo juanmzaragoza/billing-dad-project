@@ -1,7 +1,7 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
-import type { FieldValues } from "react-hook-form";
+import type { FieldValues, Path } from "react-hook-form";
 import {
 	FormControl,
 	FormField,
@@ -25,7 +25,6 @@ import type { ItemFieldsProps } from "./fields.types";
  * Can be used in invoice and purchase order forms
  */
 export function ItemFields<TFieldValues extends FieldValues = FieldValues>({
-	field,
 	index,
 	control,
 	onRemove,
@@ -35,7 +34,7 @@ export function ItemFields<TFieldValues extends FieldValues = FieldValues>({
 		<div className="grid gap-4 p-4 border rounded-lg md:grid-cols-5">
 			<FormField
 				control={control}
-				name={`items.${index}.description`}
+				name={`items.${index}.description` as Path<TFieldValues>}
 				render={({ field: formField }) => (
 					<FormItem className="md:col-span-2 min-h-[80px] flex flex-col">
 						<FormLabel>Descripción</FormLabel>
@@ -53,7 +52,7 @@ export function ItemFields<TFieldValues extends FieldValues = FieldValues>({
 
 			<FormField
 				control={control}
-				name={`items.${index}.quantity`}
+				name={`items.${index}.quantity` as Path<TFieldValues>}
 				render={({ field: formField }) => (
 					<FormItem className="min-h-[80px] flex flex-col">
 						<FormLabel>Cantidad</FormLabel>
@@ -76,7 +75,7 @@ export function ItemFields<TFieldValues extends FieldValues = FieldValues>({
 
 			<FormField
 				control={control}
-				name={`items.${index}.unitPrice`}
+				name={`items.${index}.unitPrice` as Path<TFieldValues>}
 				render={({ field: formField }) => (
 					<FormItem className="min-h-[80px] flex flex-col">
 						<FormLabel>Precio Unitario</FormLabel>
@@ -99,7 +98,7 @@ export function ItemFields<TFieldValues extends FieldValues = FieldValues>({
 
 			<FormField
 				control={control}
-				name={`items.${index}.taxRate`}
+				name={`items.${index}.taxRate` as Path<TFieldValues>}
 				render={({ field: formField }) => (
 					<FormItem className="min-h-[80px] flex flex-col">
 						<FormLabel>IVA %</FormLabel>

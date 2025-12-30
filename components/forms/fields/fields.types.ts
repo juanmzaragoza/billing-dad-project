@@ -38,9 +38,6 @@ export interface AddressFieldProps {
  * Props for ItemFields component
  */
 export interface ItemFieldsProps<TFieldValues extends FieldValues = FieldValues> {
-	field: {
-		id: string;
-	};
 	index: number;
 	control: Control<TFieldValues>;
 	onRemove?: () => void;
