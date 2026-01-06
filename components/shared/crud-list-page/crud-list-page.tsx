@@ -49,6 +49,7 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 	viewComponent,
 	getViewTitle,
 	getViewDescription,
+	onPrint,
 }: CrudListPageProps<T, TFormValues>) {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
@@ -259,6 +260,8 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 						setIsViewDialogOpen(false);
 						setSelectedItem(null);
 					}}
+					onPrint={onPrint ? () => onPrint(selectedItem) : undefined}
+					showActions={!!onPrint}
 				>
 					{viewComponent({ item: selectedItem })}
 				</ViewDialog>

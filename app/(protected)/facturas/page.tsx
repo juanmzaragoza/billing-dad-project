@@ -99,6 +99,9 @@ export default function FacturasPage() {
 			renderActions={(invoice, onDelete, onView) => (
 				<CrudListPageActions onView={onView} onDelete={onDelete} />
 			)}
+			onPrint={() => {
+				window.print();
+			}}
 		/>
 	);
 }

@@ -103,6 +103,9 @@ export default function OrdenesCompraPage() {
 			renderActions={(order, onDelete, onView) => (
 				<CrudListPageActions onView={onView} onDelete={onDelete} />
 			)}
+			onPrint={() => {
+				window.print();
+			}}
 		/>
 	);
 }

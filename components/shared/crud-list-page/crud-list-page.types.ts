@@ -100,5 +100,9 @@ export interface CrudListPageProps<T, TFormValues> {
 	 * Optional: Function to get the view dialog description
 	 */
 	getViewDescription?: (item: T) => string;
+	/**
+	 * Optional: Callback for print action in view dialog
+	 */
+	onPrint?: (item: T) => void;
 }
 
