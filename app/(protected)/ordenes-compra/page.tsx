@@ -82,6 +82,28 @@ export default function OrdenesCompraPage() {
 			createDialogDescription="Completa los datos para crear una nueva orden de compra"
 			fetchItems={purchaseOrderActions.getAllPurchaseOrders}
 			onCreate={purchaseOrderActions.createPurchaseOrder}
+			onUpdate={async (id, data) => {
+				return await purchaseOrderActions.updatePurchaseOrderFromForm(id, data);
+			}}
+			itemToFormValues={(order) => ({
+				orderNumber: order.orderNumber,
+				date: order.date,
+				supplierId: order.supplierId,
+				supplierName: order.supplierName,
+				supplierTaxId: order.supplierTaxId || "",
+				supplierTaxCondition: order.supplierTaxCondition,
+				supplierAddress: order.supplierAddress || "",
+				items: order.items.map(item => ({
+					description: item.description,
+					quantity: item.quantity,
+					unitPrice: item.unitPrice,
+					taxRate: item.taxRate,
+				})),
+				paymentCondition: order.paymentCondition,
+				deliveryDate: order.deliveryDate || "",
+				notes: order.notes || "",
+				status: order.status,
+			})}
 			onDelete={async (order) => {
 				const id = order._id?.toString();
 				if (!id) throw new Error("ID de orden inválido");
@@ -92,16 +114,18 @@ export default function OrdenesCompraPage() {
 				`Proveedor: ${order.supplierName} - Total: $${order.total.toFixed(2)}`
 			}
 			columns={columns}
-			formComponent={({ onSubmit, onCancel }) => (
-				<PurchaseOrderForm onSubmit={onSubmit} onCancel={onCancel} />
+			formComponent={({ onSubmit, onCancel, defaultValues, isEditing }) => (
+				<PurchaseOrderForm onSubmit={onSubmit} onCancel={onCancel} defaultValues={defaultValues} isEditing={isEditing} />
 			)}
+			editDialogTitle="Editar Orden de Compra"
+			editDialogDescription="Modifica los datos de la orden de compra"
 			viewComponent={({ item }) => <PurchaseOrderView order={item} />}
 			getViewTitle={(order) => `Orden de Compra ${order.orderNumber}`}
 			getViewDescription={(order) =>
 				`Detalles de la orden para ${order.supplierName}`
 			}
-			renderActions={(order, onDelete, onView) => (
-				<CrudListPageActions onView={onView} onDelete={onDelete} />
+			renderActions={(order, onDelete, onView, onEdit) => (
+				<CrudListPageActions onView={onView} onEdit={onEdit} onDelete={onDelete} />
 			)}
 			onPrint={() => {
 				window.print();

@@ -78,6 +78,27 @@ export default function FacturasPage() {
 			createDialogDescription="Completa los datos para crear una nueva factura según normativa AFIP"
 			fetchItems={invoiceActions.getAllInvoices}
 			onCreate={invoiceActions.createInvoice}
+			onUpdate={async (id, data) => {
+				return await invoiceActions.updateInvoiceFromForm(id, data);
+			}}
+			itemToFormValues={(invoice) => ({
+				invoiceType: invoice.invoiceType,
+				pointOfSale: invoice.pointOfSale || "",
+				invoiceNumber: invoice.invoiceNumber || "",
+				date: invoice.date,
+				clientId: invoice.clientId,
+				clientName: invoice.clientName,
+				clientTaxId: invoice.clientTaxId || "",
+				clientTaxCondition: invoice.clientTaxCondition,
+				clientAddress: invoice.clientAddress || "",
+				items: invoice.items.map(item => ({
+					description: item.description,
+					quantity: item.quantity,
+					unitPrice: item.unitPrice,
+					taxRate: item.taxRate,
+				})),
+				paymentCondition: invoice.paymentCondition,
+			})}
 			onDelete={async (invoice) => {
 				const id = invoice._id?.toString();
 				if (!id) throw new Error("ID de factura inválido");
@@ -88,16 +109,18 @@ export default function FacturasPage() {
 				`Para el cliente ${invoice.clientName} por un total de $${invoice.total.toFixed(2)}`
 			}
 			columns={columns}
-			formComponent={({ onSubmit, onCancel }) => (
-				<InvoiceForm onSubmit={onSubmit} onCancel={onCancel} />
+			formComponent={({ onSubmit, onCancel, defaultValues, isEditing }) => (
+				<InvoiceForm onSubmit={onSubmit} onCancel={onCancel} defaultValues={defaultValues} isEditing={isEditing} />
 			)}
+			editDialogTitle="Editar Factura"
+			editDialogDescription="Modifica los datos de la factura"
 			viewComponent={({ item }) => <InvoiceView invoice={item} />}
 			getViewTitle={(invoice) => `Factura ${getInvoiceNumber(invoice)}`}
 			getViewDescription={(invoice) =>
 				`Detalles de la factura para ${invoice.clientName}`
 			}
-			renderActions={(invoice, onDelete, onView) => (
-				<CrudListPageActions onView={onView} onDelete={onDelete} />
+			renderActions={(invoice, onDelete, onView, onEdit) => (
+				<CrudListPageActions onView={onView} onEdit={onEdit} onDelete={onDelete} />
 			)}
 			onPrint={() => {
 				window.print();

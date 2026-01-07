@@ -91,6 +91,19 @@ export default function ProveedoresPage() {
 			createDialogDescription="Completa los datos para crear un nuevo proveedor"
 			fetchItems={supplierActions.getAllSuppliers}
 			onCreate={supplierActions.createSupplier}
+			onUpdate={async (id, data) => {
+				return await supplierActions.updateSupplier(id, data);
+			}}
+			itemToFormValues={(supplier) => ({
+				name: supplier.name,
+				taxId: supplier.taxId || "",
+				taxCondition: supplier.taxCondition,
+				address: supplier.address || "",
+				email: supplier.email || "",
+				phone: supplier.phone || "",
+				contactPerson: supplier.contactPerson || "",
+				notes: supplier.notes || "",
+			})}
 			onDelete={async (supplier) => {
 				const id = supplier._id?.toString();
 				if (!id) throw new Error("ID de proveedor inválido");
@@ -99,16 +112,18 @@ export default function ProveedoresPage() {
 			getItemId={(supplier) => supplier._id?.toString()}
 			getDisplayName={(supplier) => supplier.name}
 			columns={columns}
-			formComponent={({ onSubmit, onCancel }) => (
-				<SupplierForm onSubmit={onSubmit} onCancel={onCancel} />
+			formComponent={({ onSubmit, onCancel, defaultValues, isEditing }) => (
+				<SupplierForm onSubmit={onSubmit} onCancel={onCancel} defaultValues={defaultValues} isEditing={isEditing} />
 			)}
+			editDialogTitle="Editar Proveedor"
+			editDialogDescription="Modifica los datos del proveedor"
 			viewComponent={({ item }) => <SupplierView supplier={item} />}
 			getViewTitle={(supplier) => supplier.name}
 			getViewDescription={(supplier) =>
 				`Detalles del proveedor ${supplier.name}`
 			}
-			renderActions={(supplier, onDelete, onView) => (
-				<CrudListPageActions onView={onView} onDelete={onDelete} />
+			renderActions={(supplier, onDelete, onView, onEdit) => (
+				<CrudListPageActions onView={onView} onEdit={onEdit} onDelete={onDelete} />
 			)}
 		/>
 	);

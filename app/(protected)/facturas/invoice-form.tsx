@@ -91,6 +91,7 @@ export function InvoiceForm({
 	onSubmit,
 	onCancel,
 	defaultValues,
+	isEditing = false,
 }: InvoiceFormProps) {
 	const form = useForm<InvoiceFormValues>({
 		resolver: zodResolver(invoiceSchema),
@@ -417,7 +418,7 @@ export function InvoiceForm({
 					<Button type="button" variant="outline" onClick={onCancel}>
 						Cancelar
 					</Button>
-					<Button type="submit">Crear Factura</Button>
+					<Button type="submit">{isEditing ? "Guardar Cambios" : "Crear Factura"}</Button>
 				</div>
 			</form>
 		</Form>

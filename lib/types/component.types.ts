@@ -25,6 +25,7 @@ export interface InvoiceFormProps<TFormValues = InvoiceFormValues> {
 	onSubmit: (data: TFormValues) => void;
 	onCancel: () => void;
 	defaultValues?: Partial<TFormValues>;
+	isEditing?: boolean;
 }
 
 /**

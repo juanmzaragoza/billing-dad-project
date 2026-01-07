@@ -37,6 +37,7 @@ export function ClientForm({
 	onSubmit,
 	onCancel,
 	defaultValues,
+	isEditing = false,
 }: InvoiceFormProps<ClientFormValues>) {
 	const form = useForm<ClientFormValues>({
 		resolver: zodResolver(clientSchema),
@@ -191,7 +192,7 @@ export function ClientForm({
 					<Button type="button" variant="outline" onClick={onCancel}>
 						Cancelar
 					</Button>
-					<Button type="submit">Crear Cliente</Button>
+					<Button type="submit">{isEditing ? "Guardar Cambios" : "Crear Cliente"}</Button>
 				</div>
 			</form>
 		</Form>

@@ -93,6 +93,36 @@ export async function updateInvoice(
 	}
 }
 
+/**
+ * Update invoice from form values
+ */
+export async function updateInvoiceFromForm(
+	id: string,
+	data: Partial<InvoiceFormValues>,
+): Promise<InvoiceDocument> {
+	try {
+		// Convert form values to document structure
+		const updateData: Partial<Omit<InvoiceDocument, "_id" | "createdAt">> = {
+			invoiceType: data.invoiceType,
+			pointOfSale: data.pointOfSale,
+			invoiceNumber: data.invoiceNumber,
+			date: data.date,
+			clientId: data.clientId,
+			clientName: data.clientName,
+			clientTaxId: data.clientTaxId,
+			clientTaxCondition: data.clientTaxCondition,
+			clientAddress: data.clientAddress,
+			items: data.items as InvoiceDocument["items"],
+			paymentCondition: data.paymentCondition,
+		};
+
+		return await updateInvoice(id, updateData);
+	} catch (error) {
+		console.error("Error updating invoice from form:", error);
+		throw error;
+	}
+}
+
 export async function deleteInvoice(id: string): Promise<void> {
 	try {
 		const deleted = await invoiceService.deleteInvoice(id);

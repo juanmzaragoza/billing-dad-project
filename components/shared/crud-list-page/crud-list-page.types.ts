@@ -48,6 +48,14 @@ export interface CrudListPageProps<T, TFormValues> {
 	 */
 	onCreate: (data: TFormValues) => Promise<T>;
 	/**
+	 * Function to update an item
+	 */
+	onUpdate?: (id: string, data: Partial<TFormValues>) => Promise<T>;
+	/**
+	 * Function to convert an item to form values
+	 */
+	itemToFormValues?: (item: T) => Partial<TFormValues>;
+	/**
 	 * Function to delete an item
 	 */
 	onDelete: (item: T) => Promise<void>;
@@ -64,12 +72,22 @@ export interface CrudListPageProps<T, TFormValues> {
 	 */
 	columns: CrudListColumn<T>[];
 	/**
-	 * Form component to render in the create dialog
+	 * Form component to render in the create/edit dialog
 	 */
 	formComponent: (props: {
 		onSubmit: (data: TFormValues) => void;
 		onCancel: () => void;
+		defaultValues?: Partial<TFormValues>;
+		isEditing?: boolean;
 	}) => ReactNode;
+	/**
+	 * Label for the edit dialog title
+	 */
+	editDialogTitle?: string;
+	/**
+	 * Label for the edit dialog description
+	 */
+	editDialogDescription?: string;
 	/**
 	 * Optional: Custom empty state message
 	 */
@@ -80,9 +98,9 @@ export interface CrudListPageProps<T, TFormValues> {
 	emptyStateHelperText?: string;
 	/**
 	 * Optional: Additional actions column render function
-	 * Receives the item, a delete handler function, and a view handler function
+	 * Receives the item, a delete handler function, a view handler function, and an edit handler function
 	 */
-	renderActions?: (item: T, onDelete: () => void, onView?: () => void) => ReactNode;
+	renderActions?: (item: T, onDelete: () => void, onView?: () => void, onEdit?: () => void) => ReactNode;
 	/**
 	 * Optional: Delete confirmation message
 	 */

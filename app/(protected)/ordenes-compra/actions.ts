@@ -87,6 +87,41 @@ export async function updatePurchaseOrder(
 }
 
 /**
+ * Update purchase order from form values
+ */
+export async function updatePurchaseOrderFromForm(
+	id: string,
+	data: Partial<PurchaseOrderFormValues>,
+): Promise<PurchaseOrderDocument> {
+	try {
+		// Convert form values to document structure
+		const updateData: Partial<PurchaseOrderDocument> = {
+			orderNumber: data.orderNumber,
+			date: data.date,
+			supplierId: data.supplierId,
+			supplierName: data.supplierName,
+			supplierTaxId: data.supplierTaxId,
+			supplierTaxCondition: data.supplierTaxCondition,
+			supplierAddress: data.supplierAddress,
+			items: data.items as PurchaseOrderDocument["items"],
+			paymentCondition: data.paymentCondition,
+			deliveryDate: data.deliveryDate,
+			notes: data.notes,
+			status: data.status,
+		};
+
+		const purchaseOrder = await updatePurchaseOrder(id, updateData);
+		if (!purchaseOrder) {
+			throw new Error("Orden de compra no encontrada");
+		}
+		return purchaseOrder;
+	} catch (error) {
+		console.error("Error updating purchase order from form:", error);
+		throw error;
+	}
+}
+
+/**
  * Delete a purchase order
  */
 export async function deletePurchaseOrder(id: string): Promise<void> {

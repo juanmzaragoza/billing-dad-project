@@ -79,6 +79,18 @@ export default function ClientesPage() {
 			createDialogDescription="Completa los datos para crear un nuevo cliente"
 			fetchItems={clientActions.getAllClients}
 			onCreate={clientActions.createClient}
+			onUpdate={async (id, data) => {
+				return await clientActions.updateClient(id, data);
+			}}
+			itemToFormValues={(client) => ({
+				name: client.name,
+				taxId: client.taxId || "",
+				taxCondition: client.taxCondition,
+				address: client.address || "",
+				email: client.email || "",
+				phone: client.phone || "",
+				notes: client.notes || "",
+			})}
 			onDelete={async (client) => {
 				const id = client._id?.toString();
 				if (!id) throw new Error("ID de cliente inválido");
@@ -87,14 +99,16 @@ export default function ClientesPage() {
 			getItemId={(client) => client._id?.toString()}
 			getDisplayName={(client) => client.name}
 			columns={columns}
-			formComponent={({ onSubmit, onCancel }) => (
-				<ClientForm onSubmit={onSubmit} onCancel={onCancel} />
+			formComponent={({ onSubmit, onCancel, defaultValues, isEditing }) => (
+				<ClientForm onSubmit={onSubmit} onCancel={onCancel} defaultValues={defaultValues} isEditing={isEditing} />
 			)}
+			editDialogTitle="Editar Cliente"
+			editDialogDescription="Modifica los datos del cliente"
 			viewComponent={({ item }) => <ClientView client={item} />}
 			getViewTitle={(client) => client.name}
 			getViewDescription={(client) => `Detalles del cliente ${client.name}`}
-			renderActions={(client, onDelete, onView) => (
-				<CrudListPageActions onView={onView} onDelete={onDelete} />
+			renderActions={(client, onDelete, onView, onEdit) => (
+				<CrudListPageActions onView={onView} onEdit={onEdit} onDelete={onDelete} />
 			)}
 		/>
 	);

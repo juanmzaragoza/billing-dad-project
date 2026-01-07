@@ -43,7 +43,8 @@ export function PurchaseOrderForm({
 	onSubmit,
 	onCancel,
 	defaultValues,
-}: PurchaseOrderFormProps) {
+	isEditing = false,
+}: PurchaseOrderFormProps & { isEditing?: boolean }) {
 	const form = useForm<PurchaseOrderFormValues>({
 		resolver: zodResolver(purchaseOrderSchema),
 		defaultValues: {
@@ -354,7 +355,7 @@ export function PurchaseOrderForm({
 					<Button type="button" variant="outline" onClick={onCancel}>
 						Cancelar
 					</Button>
-					<Button type="submit">Crear Orden</Button>
+					<Button type="submit">{isEditing ? "Guardar Cambios" : "Crear Orden"}</Button>
 				</div>
 			</form>
 		</Form>

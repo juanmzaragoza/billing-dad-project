@@ -35,8 +35,12 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 	newButtonLabel,
 	createDialogTitle,
 	createDialogDescription,
+	editDialogTitle,
+	editDialogDescription,
 	fetchItems,
 	onCreate,
+	onUpdate,
+	itemToFormValues,
 	onDelete,
 	getItemId,
 	getDisplayName,
@@ -52,8 +56,10 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 	onPrint,
 }: CrudListPageProps<T, TFormValues>) {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 	const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<T | null>(null);
+	const [editingItem, setEditingItem] = useState<T | null>(null);
 	const [items, setItems] = useState<T[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -99,6 +105,45 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 				duration: 5000,
 			});
 		}
+	};
+
+	const handleUpdate = async (data: TFormValues | Partial<TFormValues>) => {
+		if (!editingItem || !onUpdate || !itemToFormValues) return;
+
+		const id = getItemId(editingItem);
+		if (!id) {
+			toast.error("Error", {
+				description: `ID de ${title.slice(0, -1).toLowerCase()} inválido`,
+			});
+			return;
+		}
+
+		try {
+			const updatedItem = await onUpdate(id, data);
+
+			toast.success(`${title.slice(0, -1)} actualizad${title.slice(-1) === "s" ? "a" : "o"} exitosamente`, {
+				description: getDisplayName(updatedItem),
+				duration: 5000,
+			});
+
+			setIsEditDialogOpen(false);
+			setEditingItem(null);
+			await loadItems();
+		} catch (error) {
+			console.error(`Error updating ${title.toLowerCase()}:`, error);
+			const errorMessage =
+				error instanceof Error ? error.message : "Ocurrió un error inesperado";
+
+			toast.error(`Error al actualizar ${title.toLowerCase()}`, {
+				description: errorMessage,
+				duration: 5000,
+			});
+		}
+	};
+
+	const handleEdit = (item: T) => {
+		setEditingItem(item);
+		setIsEditDialogOpen(true);
 	};
 
 	const handleDelete = async (item: T) => {
@@ -158,9 +203,35 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 						{formComponent({
 							onSubmit: handleSubmit,
 							onCancel: () => setIsDialogOpen(false),
+							isEditing: false,
 						})}
 					</DialogContent>
 				</Dialog>
+
+				{/* Edit Dialog */}
+				{onUpdate && itemToFormValues && (
+					<Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+						<DialogContent className="!max-w-[90vw] lg:!max-w-6xl max-h-[90vh] overflow-y-auto w-[95vw]">
+							<DialogHeader>
+								<DialogTitle>
+									{editDialogTitle || `Editar ${title.slice(0, -1)}`}
+								</DialogTitle>
+								<DialogDescription>
+									{editDialogDescription || `Modifica los datos del ${title.slice(0, -1).toLowerCase()}`}
+								</DialogDescription>
+							</DialogHeader>
+							{editingItem && formComponent({
+								onSubmit: handleUpdate,
+								onCancel: () => {
+									setIsEditDialogOpen(false);
+									setEditingItem(null);
+								},
+								defaultValues: itemToFormValues(editingItem),
+								isEditing: true,
+							})}
+						</DialogContent>
+					</Dialog>
+				)}
 			</div>
 
 			{/* Content Card */}
@@ -230,6 +301,9 @@ export function CrudListPage<T, TFormValues extends Record<string, unknown> = Re
 																setSelectedItem(item);
 																setIsViewDialogOpen(true);
 															}
+														: undefined,
+													onUpdate && itemToFormValues
+														? () => handleEdit(item)
 														: undefined,
 												)}
 											</TableCell>

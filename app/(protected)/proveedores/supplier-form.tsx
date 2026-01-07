@@ -38,6 +38,7 @@ export function SupplierForm({
 	onSubmit,
 	onCancel,
 	defaultValues,
+	isEditing = false,
 }: InvoiceFormProps<SupplierFormValues>) {
 	const form = useForm<SupplierFormValues>({
 		resolver: zodResolver(supplierSchema),
@@ -214,7 +215,7 @@ export function SupplierForm({
 					<Button type="button" variant="outline" onClick={onCancel}>
 						Cancelar
 					</Button>
-					<Button type="submit">Crear Proveedor</Button>
+					<Button type="submit">{isEditing ? "Guardar Cambios" : "Crear Proveedor"}</Button>
 				</div>
 			</form>
 		</Form>
