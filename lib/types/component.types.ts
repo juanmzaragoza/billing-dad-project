@@ -21,10 +21,10 @@ export interface ClientSelectorProps {
 /**
  * Invoice Form component props
  */
-export interface InvoiceFormProps {
-	onSubmit: (data: InvoiceFormValues) => void;
+export interface InvoiceFormProps<TFormValues = InvoiceFormValues> {
+	onSubmit: (data: TFormValues) => void;
 	onCancel: () => void;
-	defaultValues?: Partial<InvoiceFormValues>;
+	defaultValues?: Partial<TFormValues>;
 }
 
 /**
